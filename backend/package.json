@@ -1,0 +1,34 @@
+{
+  "name": "TestMarple",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node server.ts"
+  },
+  "keywords": [],
+  "author": "Sidmonta <sidmonta.15@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "@marblejs/core": "^3.2.0",
+    "@marblejs/messaging": "^3.2.1",
+    "@marblejs/middleware-body": "^3.2.0",
+    "@marblejs/middleware-cors": "^3.2.0",
+    "@marblejs/middleware-logger": "^3.2.0",
+    "@marblejs/websockets": "^3.2.0",
+    "better-sqlite3": "^7.1.0",
+    "fp-ts": "^2.6.5",
+    "mime-types": "^2.1.27",
+    "n3": "^1.4.0",
+    "redis": "^3.0.2",
+    "rxjs": "^6.5.5"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^5.4.0",
+    "@types/mime-types": "^2.1.0",
+    "@types/n3": "^1.1.6",
+    "@types/redis": "^2.8.22",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.5"
+  }
+}
