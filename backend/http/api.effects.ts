@@ -7,9 +7,7 @@ import { Observable } from 'rxjs'
 const base$ = r.pipe(
   r.matchPath('/'),
   r.matchType('GET'),
-  r.useEffect(req$ => req$.pipe(
-    mapTo({ body: 'API active' })
-  ))
+  r.useEffect((req$) => req$.pipe(mapTo({ body: 'API active' })))
 )
 
 const init$ = r.pipe(
@@ -28,13 +26,14 @@ const children$ = r.pipe(
   r.matchType('GET'),
   r.useEffect((req$: Observable<HttpRequest>, ctx: EffectContext<HttpServer>) => {
     return req$.pipe(
-      map(req => req?.parent?.id),
+      map((req) => {
+        // @ts-ignore
+        return req?.params?.id
+      }),
       getSubCategory(ctx),
       map((rows) => ({ body: rows }))
     )
   })
 )
 
-export const api$ = combineRoutes('/api', [
-  base$, init$, children$
-])
+export const api$ = combineRoutes('/api', [base$, init$, children$])
