@@ -1,8 +1,14 @@
 import { promisify } from 'util'
 import { Commands, RedisClient } from 'redis'
-import { fromPromise } from 'rxjs/internal-compatibility'
+export default function promiseWrap(redisClient: RedisClient) {
+  return new Proxy(redisClient, {
+    get(target, method: keyof Commands<unknown>): Promise<string | string[]> {
+      return promisify(target[method]).bind(target)
+    },
+  })
+}
 
-export default function wrap(redisClient: RedisClient) {
-  return (method: keyof Commands<unknown>) =>
-    fromPromise(promisify(redisClient[method]).bind(redisClient))
+export const smembers = (cache: RedisClient) => (value: string) => {
+  console.log(value)
+  return promisify(cache.smembers).bind(cache)(value)
 }

@@ -5,28 +5,28 @@ import { wSocketListener } from './websocket/websocket.listener'
 import { createWebSocketServer } from '@marblejs/websockets'
 import { d, databaseToken } from './database/database.context'
 import { c, cacheToken } from './cache/redis.context'
+import { populateDeweyCache } from './cache/redis.prepopulate'
 
 const server = createServer({
   port: 1337,
   hostname: 'localhost',
   listener,
-  dependencies: [
-    bindTo(databaseToken)(d),
-    bindTo(cacheToken)(c)
-  ]
+  dependencies: [bindTo(databaseToken)(d), bindTo(cacheToken)(c)],
 })
 
 const webSocketServer = createWebSocketServer({
   options: {
     port: 1338,
-    host: 'localhost'
+    host: 'localhost',
   },
-  listener: wSocketListener
+  listener: wSocketListener,
+  dependencies: [bindTo(databaseToken)(d), bindTo(cacheToken)(c)],
 })
 
 const main: IO<void> = async () => {
- await (await server)()
- await (await webSocketServer)()
+  populateDeweyCache()
+  await (await server)()
+  await (await webSocketServer)()
 }
 
 main()
