@@ -1,18 +1,24 @@
-import { Quad } from "n3"
+import { Quad } from 'n3'
 import { Event } from '@marblejs/core'
 
+export enum Type {
+  BOOKLIST = 'BOOKLIST',
+  LABEL = 'LABEL',
+  BOOKDATA = 'BOOKDATA',
+}
+
 export interface WSBookList extends Event {
-  type: 'BOOKLIST',
-  payload: string
+  type: Type.BOOKLIST
+  payload: { id: string }
 }
 
 export interface WSLabel extends Event {
-  type: 'LABEL',
+  type: Type.LABEL
   payload: string | string[]
 }
 
 export interface WSBookData extends Event {
-  type: 'BOOKDATA',
+  type: Type.BOOKDATA
   payload: Quad
 }
 

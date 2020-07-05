@@ -1,66 +1,74 @@
 import { WsEffect } from '@marblejs/websockets'
-import { act, matchEvent } from '@marblejs/core'
-import { map, tap } from 'rxjs/operators'
-import { pipe } from 'fp-ts/lib/pipeable';
+import { act, Event, matchEvent } from '@marblejs/core'
+import { map } from 'rxjs/operators'
+import { pipe } from 'fp-ts/lib/pipeable'
 import { reply } from '@marblejs/messaging'
-import { of } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { redisClient } from '../cache/redis.context'
+import { Type, WSBookList } from './EffectTypes'
+import { getBookListFromCache } from './stream.response'
 
-export const hello$: WsEffect = (event$) => {
-  return event$.pipe(
-    matchEvent('HELLO'),
-    tap(console.log),
-    map(({ payload }) => ({
-      type: 'HELLO', payload
-    }))
-  )
-}
+// export const hello$: WsEffect = (event$) => {
+//   return event$.pipe(
+//     matchEvent('HELLO'),
+//     tap(console.log),
+//     map(({ payload }) => ({
+//       type: 'HELLO',
+//       payload,
+//     }))
+//   )
+// }
 
-export const bookList$: WsEffect = event$ => {
+export const bookList$: WsEffect = (event$: Observable<Event>) => {
   return event$.pipe(
-    matchEvent('BOOKLIST'),
-    act(event => {
+    matchEvent(Type.BOOKLIST),
+    act((event: WSBookList) => {
       return pipe(
-        of(1), // TODO: Replace with function (event) => Observable<payload>
-        map(payload => reply(event)(
-          {
-            type: 'BOOKLIST',
-            payload
-          }
-        ))
+        getBookListFromCache(redisClient, event), // TODO: Replace with function (event) => Observable<payload>
+        map((payload) =>
+          reply(event)({
+            type: Type.BOOKLIST,
+            payload,
+          })
+        )
       )
     })
   )
 }
 
-export const bookData$: WsEffect = event$ => {
+export const bookData$: WsEffect = (event$) => {
   return event$.pipe(
-    matchEvent('BOOKDATA'),
-    act(event => {
+    matchEvent(Type.BOOKDATA),
+    act((event) => {
+      // const cache = getCacheFromContext(ctx)
+
       return pipe(
         of(1), // TODO: Replace with function (event) => Observable<payload>
-        map(payload => reply(event)(
-          {
-            type: 'BOOKDATA',
-            payload
-          }
-        ))
+        map((payload) =>
+          reply(event)({
+            type: Type.BOOKDATA,
+            payload,
+          })
+        )
       )
     })
   )
 }
 
-export const label$: WsEffect = event$ => {
+export const label$: WsEffect = (event$) => {
   return event$.pipe(
     matchEvent('LABEL'),
-    act(event => {
+    act((event) => {
+      // const cache = getCacheFromContext(ctx)
+
       return pipe(
         of(1), // TODO: Replace with function (event) => Observable<payload
-        map(payload => reply(event)(
-          {
+        map((payload) =>
+          reply(event)({
             type: 'LABEL',
-            payload
-          }
-        ))
+            payload,
+          })
+        )
       )
     })
   )
