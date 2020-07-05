@@ -18,6 +18,7 @@
     "@marblejs/middleware-cors": "^3.2.0",
     "@marblejs/middleware-logger": "^3.2.0",
     "@marblejs/websockets": "^3.2.0",
+    "@sidmonta/babelecrawler": "0.0.2",
     "better-sqlite3": "^7.1.0",
     "fp-ts": "^2.6.5",
     "mime-types": "^2.1.27",
