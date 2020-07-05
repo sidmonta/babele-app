@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import BookCase, { BookCaseType } from '../../components/bookcase/BookCase'
 import styled from 'styled-components'
+import WebSocketClient from '../../WebSocketClient'
+
+const websocket = new WebSocketClient({
+  port: '1338',
+})
 
 const BookCasesContainer = styled.div`
   width: 100vw;
@@ -16,6 +21,9 @@ export default function BookcaseWrapper({
   onChange?: (bc: BookCaseType) => void
 }) {
   const [bookcases, setBookCase] = useState<BookCaseType[]>([])
+  // const [books, setBooks] = useState<string[]>([])
+
+  console.log(category)
 
   const fetchData = (dewey?: string) => {
     const apiUrl = dewey ? `children/${dewey}` : 'init'
@@ -31,10 +39,17 @@ export default function BookcaseWrapper({
   }, [])
 
   const handleClick = (bc: BookCaseType) => {
-    fetchData(bc.dewey)
     if (onChange) {
       onChange(bc)
     }
+    // websocket.emit('BOOKLIST', {
+    //   id: bc.dewey,
+    // })
+    //
+    // websocket.on('BOOKLIST', function (payload: string) {
+    //   console.log(books, payload)
+    //   setBooks((books) => [...books, payload])
+    // })
   }
 
   const printBookCases = () => {
