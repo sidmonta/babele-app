@@ -1,14 +1,30 @@
 import { EffectContext, HttpServer } from '@marblejs/core'
 import { getDatabaseFromContext } from './database.context'
+import { DeweyCategory } from '@sidmonta/babelelibrary/lib/types'
 import { mergeMap } from 'rxjs/operators'
 import { of, throwError } from 'rxjs'
 
-export type DeweyRow = {
-  dewey: string
-  name: string
-  parent: string
-  hierarchy: DeweyRow[]
-  haveChildren: boolean
+function formatHierarchyDewey(hierarchy) {
+  return hierarchy
+    ? hierarchy.split(',').map((hierarchy) => {
+        const [dewey, parent, name] = hierarchy.split(';')
+        return {
+          dewey,
+          parent,
+          name,
+        }
+      })
+    : []
+}
+
+function createDeweyCategory(row: any): DeweyCategory {
+  return {
+    dewey: row.dewey,
+    name: row.name,
+    parent: row.name,
+    hierarchy: formatHierarchyDewey(row.hierarchy),
+    haveChildren: row.haveChild > 0,
+  }
 }
 
 const getRecord = (database, deweyParent) => {
@@ -29,25 +45,9 @@ const getRecord = (database, deweyParent) => {
                  WHERE d.parent ${whereParentCondition}`
       )
       .all()
-      .map((row) => ({
-        dewey: row.dewey,
-        name: row.name,
-        parent: row.name,
-        hierarchy: row.hierarchy
-          ? row.hierarchy.split(',').map((hierarchy) => {
-              const [dewey, parent, name] = hierarchy.split(';')
-              return {
-                dewey,
-                parent,
-                name,
-              }
-            })
-          : [],
-        haveChildren: row.haveChild > 0,
-      })) as DeweyRow[]
+      .map(createDeweyCategory)
     return of(response)
   } catch (err) {
-    console.log(err)
     return throwError('Error on Database ' + err)
   }
 }

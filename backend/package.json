@@ -6,7 +6,8 @@
   "scripts": {
     "start-redis": "redis-server /usr/local/etc/redis.conf",
     "start-server": "ts-node server.ts",
-    "start": "concurrently \"npm:start-*\""
+    "start": "concurrently \"npm:start-*\"",
+    "dev": "concurrently \"npm:start-redis\" \"ts-node-dev server.ts\""
   },
   "keywords": [],
   "author": "Sidmonta <sidmonta.15@gmail.com>",
@@ -33,6 +34,7 @@
     "@types/redis": "^2.8.22",
     "concurrently": "^5.2.0",
     "ts-node": "^8.10.2",
+    "ts-node-dev": "^1.0.0-pre.56",
     "typescript": "^3.9.5"
   }
 }

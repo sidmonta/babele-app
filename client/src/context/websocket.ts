@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react'
-import WebSocketClient from '../WebSocketClient'
+import WebSocketClient from '@sidmonta/babelelibrary/lib/tools/WebSocketClient'
 
 const socket = new WebSocketClient({ port: '1338' })
 

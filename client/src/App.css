@@ -1,38 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+:root {
+    --main-bg-color: brown;
+    --main-text-color: #151515;
+}
+
 .App {
-  text-align: center;
+    font-family: 'Open Sans', sans-serif;
+    background-color: var(--main-bg-color);
+    min-height: 100vh;
+    min-width: 100vw;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 0.1fr 2.8fr 0.2fr;
+    gap: 1px 1px;
+    grid-template-areas: "header header header header" "content content content content" "footer footer footer footer";
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.menu .hamburger-btn {
+    position: absolute;
+    margin: 25px;
+    left: 1em;
+    z-index: 999;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
+footer { grid-area: footer; }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
+header { grid-area: header; }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+main { grid-area: content; }
