@@ -17,6 +17,7 @@ const ModalContainer = styled.div`
   background-color: red;
   transform: translate(-50%, -50%);
   transition: opacity 3s;
+  z-index: 9;
 `
 
 export type MenuModalProps = {
