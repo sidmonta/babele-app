@@ -18,13 +18,13 @@ const Title = styled.h1`
     css`
       writing-mode: vertical-lr;
       text-orientation: upright;
-      letter-spacing: -35px;
+      letter-spacing: -15px;
     `}
   ${(props: TitleProps) =>
     props.nowrap &&
     css`
       white-space: nowrap;
-      word-spacing: -35px;
+      word-spacing: -15px;
     `}
 `
 export default Title

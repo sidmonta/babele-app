@@ -193,6 +193,8 @@ export default function SearchBar() {
   const [closed, setClose] = useState<boolean>(true)
   const [query, setQuery] = useState<string>('')
 
+  let inputRef: HTMLInputElement | null = null
+
   const handleChange = (event: ChangeEvent) => {
     const target: HTMLInputElement = event.target as HTMLInputElement
     setQuery(target.value || '')
@@ -206,10 +208,26 @@ export default function SearchBar() {
     }
   }
 
+  const handleToggleClick = () => {
+    setClose(!closed)
+    console.log(!closed)
+    if (closed) {
+      inputRef?.focus()
+    }
+  }
+
   return (
     <SearchContainer className="searchBtn" closed={closed}>
-      <input type="text" value={query} onChange={handleChange} onKeyDown={handleSubmit} />
-      <Toggle closed={closed} onClick={() => setClose(!closed)} />
+      <input
+        type="text"
+        value={query}
+        onChange={handleChange}
+        onKeyDown={handleSubmit}
+        ref={(input: HTMLInputElement) => {
+          inputRef = input
+        }}
+      />
+      <Toggle closed={closed} onClick={handleToggleClick} />
     </SearchContainer>
   )
 }
