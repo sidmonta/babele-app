@@ -1,8 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
 
+footer { grid-area: footer; }
+header { grid-area: header; }
+main { grid-area: content; }
+
 :root {
     --main-bg-color: brown;
     --main-text-color: #151515;
+}
+
+* {
+    font-family: 'Open Sans', sans-serif;
 }
 
 .App {
@@ -25,8 +33,9 @@
     z-index: 999;
 }
 
-footer { grid-area: footer; }
-
-header { grid-area: header; }
-
-main { grid-area: content; }
+footer .searchBtn {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    margin: 0 15px;
+}
