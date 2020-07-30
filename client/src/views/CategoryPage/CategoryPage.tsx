@@ -1,7 +1,10 @@
-import React, { useState } from 'react'
-import BookcaseWrapper from '../BookcaseWrapper/BookcaseWrapper'
+import React, { useEffect, useState } from 'react'
 import { Link, useParams } from '@reach/router'
 import { BookCaseType } from '../../components/bookcase/BookCase'
+import { useDewey, useDeweySelect } from '../../context/dewey-select'
+import Title from '../../components/title/title'
+import { DeweyCategory } from '@sidmonta/babelelibrary/build/types'
+import { fetchAPI } from '../../services'
 
 type categoryParams = {
   categoryId: string
@@ -9,27 +12,14 @@ type categoryParams = {
 
 export default function CategoryPage({ path }: { path: string }) {
   const params: categoryParams = useParams()
-  const [currentDewey, setCurrentDewey] = useState<string>(params.categoryId)
-  const [breadcrumbs, setBreadcrumbs] = useState(
-    <span>
-      <Link to="/">Home</Link>
-    </span>
-  )
+  const currentDewey = params.categoryId
+  const { selectDeweyCategory } = useDeweySelect()
 
-  const printBreadcrumbs = (bc: BookCaseType) => {
-    setCurrentDewey(bc.dewey)
-    setBreadcrumbs(
-      <span>
-        {bc.hierarchy.map((bread) => bread.name).join(' > ')} <b>{bc.name}</b>
-      </span>
-    )
-  }
+  const selectDewey: DeweyCategory | null = useDewey(currentDewey)
 
   return (
     <div>
-      <h1>Category page</h1>
-      <BookcaseWrapper category={currentDewey} onChange={printBreadcrumbs} />
-      {breadcrumbs}
+      <Title>{selectDewey?.name}</Title>
     </div>
   )
 }
