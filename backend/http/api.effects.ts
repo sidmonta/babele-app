@@ -1,8 +1,11 @@
 import { r, combineRoutes, HttpRequest, EffectContext, HttpServer } from '@marblejs/core'
 
 import { map, mapTo } from 'rxjs/operators'
-import { getCategoryRoot, getSubCategory } from '../database/database.methods'
+import { getCategory, getDeweyElement } from '../database/database.methods'
 import { Observable } from 'rxjs'
+
+const formatOutput = (body) => ({ body })
+const mapOutput = map(formatOutput)
 
 const base$ = r.pipe(
   r.matchPath('/'),
@@ -15,8 +18,9 @@ const init$ = r.pipe(
   r.matchType('GET'),
   r.useEffect((req$, ctx) => {
     return req$.pipe(
-      getCategoryRoot(ctx),
-      map((rows) => ({ body: rows }))
+      map(() => ''),
+      getCategory(ctx),
+      mapOutput
     )
   })
 )
@@ -30,10 +34,25 @@ const children$ = r.pipe(
         // @ts-ignore
         return req?.params?.id
       }),
-      getSubCategory(ctx),
-      map((rows) => ({ body: rows }))
+      getCategory(ctx),
+      mapOutput
     )
   })
 )
 
-export const api$ = combineRoutes('/api', [base$, init$, children$])
+const getDewey$ = r.pipe(
+  r.matchPath('/get-dewey/:id'),
+  r.matchType('GET'),
+  r.useEffect((req$: Observable<HttpRequest>, ctx: EffectContext<HttpServer>) => {
+    return req$.pipe(
+      map((req) => {
+        // @ts-ignore
+        return req?.params?.id
+      }),
+      getDeweyElement(ctx),
+      mapOutput
+    )
+  })
+)
+
+export const api$ = combineRoutes('/api', [base$, init$, children$, getDewey$])

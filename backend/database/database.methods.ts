@@ -3,6 +3,11 @@ import { getDatabaseFromContext } from './database.context'
 import { DeweyCategory } from '@sidmonta/babelelibrary/lib/types'
 import { mergeMap } from 'rxjs/operators'
 import { of, throwError } from 'rxjs'
+import { sqlGetDeweyInfo, sqlWhereDeweyId, sqlWhereParent, sqlWhereParentNull } from './database.queries'
+
+export type From = 'fromParent' | 'fromId'
+
+const sqlGenerator = sqlGetDeweyInfo('d')
 
 function formatHierarchyDewey(hierarchy) {
   return hierarchy
@@ -27,37 +32,32 @@ function createDeweyCategory(row: any): DeweyCategory {
   }
 }
 
-const getRecord = (database, deweyParent) => {
+const getRecord = (database, from: From) => (identity: string) => {
   try {
-    const whereParentCondition = deweyParent ? `= '${deweyParent}'` : 'IS NULL'
-    const response = database
-      .prepare(
-        `SELECT id as dewey, name,  parent, ( SELECT group_concat(name) FROM (
-                        SELECT (d2.id || ';' || d2.parent || ';' || name) as name
-                        FROM dewey d2
-                        WHERE 
-                          d2.id = substr(d.parent, 1, 1) || '00'
-                          OR d2.id = substr(d.parent, 1, 2) || '0'
-                          OR d2.id = d.parent
-                      ) as pp ) as hierarchy,
-                      (SELECT COUNT(1) FROM dewey d3 WHERE d3.parent = d.id) as 'haveChild'
-                 FROM dewey d 
-                 WHERE d.parent ${whereParentCondition}`
-      )
-      .all()
-      .map(createDeweyCategory)
+    let whereParentCondition
+    if (from === 'fromParent') {
+      whereParentCondition = identity ? sqlWhereParent(identity) : sqlWhereParentNull()
+    } else {
+      whereParentCondition = sqlWhereDeweyId(identity)
+    }
+    const response = database.prepare(sqlGenerator(whereParentCondition)).all().map(createDeweyCategory)
     return of(response)
   } catch (err) {
     return throwError('Error on Database ' + err)
   }
 }
 
-export function getCategoryRoot(ctx: EffectContext<HttpServer>) {
+const process = (ctx: EffectContext<HttpServer>, from: From) => {
   const database = getDatabaseFromContext(ctx)
-  return mergeMap(() => getRecord(database, ''))
+  const get = getRecord(database, from)
+
+  return mergeMap(get)
 }
 
-export function getSubCategory(ctx: EffectContext<HttpServer>) {
-  const database = getDatabaseFromContext(ctx)
-  return mergeMap((deweyParent: string) => getRecord(database, deweyParent))
+export function getCategory(ctx: EffectContext<HttpServer>) {
+  return process(ctx, 'fromParent')
+}
+
+export function getDeweyElement(ctx: EffectContext<HttpServer>) {
+  return process(ctx, 'fromId')
 }
