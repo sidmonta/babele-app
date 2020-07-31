@@ -1,46 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
 
-footer { grid-area: footer; }
+footer { grid-area: footer; height: 0; }
 header { grid-area: header; }
 main { grid-area: content; display: flex;}
 
 :root {
     --main-bg-color: aqua;
     --main-text-color: #151515;
-}
-
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed,
-figure, figcaption, footer, header, hgroup,
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	vertical-align: baseline;
-}
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section {
-	display: block;
-}
-body {
-	line-height: 1;
-}
-ol, ul {
-	list-style: none;
-}
-
-* {
-    font-family: 'Open Sans', sans-serif;
 }
 
 .App {
@@ -50,10 +16,10 @@ ol, ul {
     min-width: 100vw;
 
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: 0.1fr 2.8fr 0.2fr;
+    grid-template-columns: 1fr;
+    grid-template-rows: 0 2.8fr 0;
     gap: 1px 1px;
-    grid-template-areas: "header header header header" "content content content content" "footer footer footer footer";
+    grid-template-areas: "header" "content" "footer";
 }
 
 .menu .hamburger-btn {
@@ -64,21 +30,12 @@ ol, ul {
 }
 
 footer .searchBtn {
-    position: absolute;
+    position: fixed;
     right: 20px;
     bottom: 20px;
     margin: 0 15px;
 }
 
-.center-text {
-    text-align: center;
-}
-
-.page-container {
-    margin: 5rem auto 0 auto;
-    padding: 0 2rem;
-}
-
 .bookcase-container {
-margin-top: 5%;
+    margin-top: 5%;
 }

@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react'
-import { DeweyCategory } from '@sidmonta/babelelibrary/lib/types'
+import { DeweyCategory } from '@sidmonta/babelelibrary/build/types'
 import { fetchAPI } from '../services'
 
 type ContextType = {
@@ -11,7 +11,7 @@ const getDewey = fetchAPI('GET')
 
 export const DeweySelectContext = createContext({
   selectDeweyCategory: null,
-  setSelectDeweyCategory: (d: DeweyCategory) => {},
+  setSelectDeweyCategory: (_: DeweyCategory) => {},
 } as ContextType)
 export const useDeweySelect = () => useContext(DeweySelectContext)
 
@@ -21,18 +21,17 @@ export function useDewey(fallback: string) {
 
   useEffect(() => {
     const get = async () => {
-      let dewey: DeweyCategory | null = null
+      let dewey: DeweyCategory | null
       if (selectDeweyCategory) {
-        dewey = selectDeweyCategory
+        setDeweySelect(selectDeweyCategory)
       } else {
-        dewey = (await getDewey('/get-dewey/' + fallback)) as DeweyCategory | null
+        dewey = (await getDewey('/get-dewey/' + fallback))[0] as DeweyCategory | null
+        setDeweySelect(dewey)
       }
-
-      setDeweySelect(dewey)
     }
 
     get().then()
-  }, [])
+  }, [fallback, selectDeweyCategory])
 
   return deweySelect
 }

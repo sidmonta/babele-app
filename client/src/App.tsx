@@ -7,7 +7,7 @@ import CategoryPage from './views/CategoryPage/CategoryPage'
 import NavMenu from './components/menu/NavMenu'
 import SearchResult from './views/SearchResult/SearchResult'
 import SearchBar from './components/searchbar/SearchBar'
-import { DeweyCategory } from '@sidmonta/babelelibrary/build/types'
+import { DeweyCategory } from '@sidmonta/babelelibrary/lib/types'
 import { DeweySelectContext } from './context/dewey-select'
 
 function App() {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { DeweyCategory } from '@sidmonta/babelelibrary/lib/types'
+import { DeweyCategory } from '@sidmonta/babelelibrary/build/types'
 import { useDeweySelect } from '../../context/dewey-select'
 import { fetchAPI } from '../../services'
 import BookCase from '../bookcase/BookCase'
@@ -45,11 +45,11 @@ export default function WrapBookcase(props: WrapBookcaseProps) {
     }
 
     fetchBookCases().then()
-  }, [])
+  }, [deweySelect])
 
   const handleBookcaseClick = (deweySelected: DeweyCategory) => {
     setSelectDeweyCategory(deweySelected)
-    navigate('category/' + deweySelected.dewey).then()
+    navigate('/category/' + deweySelected.dewey).then()
   }
 
   const printBookcase = (bookcase: DeweyCategory) => {

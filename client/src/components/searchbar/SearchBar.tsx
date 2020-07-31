@@ -116,27 +116,6 @@ const SearchContainer = styled.div`
   }
 `
 
-const Input = styled.input`
-  outline: none;
-  box-shadow: none;
-  height: 50px;
-  line-height: 50px;
-  width: 100%;
-  padding: 0 1em;
-  box-sizing: border-box;
-  background: transparent;
-  color: var(--main-text-color);
-  border: 4px solid var(--main-text-color);
-  border-radius: 50px;
-  font-size: 18px;
-
-  ${(props: SearchBarProps) =>
-    props.closed &&
-    css`
-      color: #e62878;
-    `}
-`
-
 const Toggle = styled.div`
   position: absolute;
   width: 50px;
