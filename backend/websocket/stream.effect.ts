@@ -24,7 +24,7 @@ export const bookList$: WsEffect = (event$: Observable<Event>) => {
     matchEvent(Type.BOOKLIST),
     act((event: WSBookList) => {
       return pipe(
-        getBookListFromCache(redisClient, event), // TODO: Replace with function (event) => Observable<payload>
+        getBookListFromCache(redisClient, event),
         map((payload) =>
           reply(event)({
             type: Type.BOOKLIST,

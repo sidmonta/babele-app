@@ -1,4 +1,4 @@
-export const sqlGenerateHierarchy = (deweyTable: string) => () => `
+export const sqlGenerateHierarchy = (deweyTable: string) => `
 SELECT group_concat(name) 
 FROM (
   SELECT (d2.id || ';' || d2.parent || ';' || name) as name
@@ -9,8 +9,7 @@ FROM (
     OR d2.id = ${deweyTable}.parent
 ) as pp`
 
-export const sqlHaveChild = (deweyTable: string) => () =>
-  `SELECT COUNT(1) FROM dewey d3 WHERE d3.parent = ${deweyTable}.id`
+export const sqlHaveChild = (deweyTable: string) => `SELECT COUNT(1) FROM dewey d3 WHERE d3.parent = ${deweyTable}.id`
 
 export const sqlWhereParentNull = () => (deweyTable: string) => `${deweyTable}.parent IS NULL`
 export const sqlWhereParent = (parent: string) => (deweyTable: string) => `${deweyTable}.parent = '${parent}'`
@@ -21,8 +20,8 @@ export const sqlGetDeweyInfo = (deweyTable: string) => (where: (deweyTable: stri
       id as dewey,
       name,
       parent,
-      (${sqlGenerateHierarchy(deweyTable)()}) as hierarchy,
-      (${sqlHaveChild(deweyTable)()}) as 'haveChild'
+      (${sqlGenerateHierarchy(deweyTable)}) as hierarchy,
+      (${sqlHaveChild(deweyTable)}) as 'haveChild'
     FROM dewey ${deweyTable} 
     WHERE ${where(deweyTable)}
 `
