@@ -1,15 +1,15 @@
 import React from 'react'
-import styled from 'styled-components'
 import { generateColorFromString } from '@sidmonta/babelelibrary/build/tools'
+import * as he from 'he'
 import { useLabel } from '../../context/labeler'
-
-const BookCover = styled.div`
-  background-color: ${(props) => props.color || 'red'};
-  width: 25px;
-  height: 30px;
-`
+import { ThemeComponentFactory } from '../../context/theme'
 
 export default function AtomBook({ url }: { url: string }) {
-  const [label] = useLabel(url)
-  return <BookCover color={generateColorFromString(url)}>{label}</BookCover>
+  const label: string = useLabel(url)[0] as string
+  const BookCover = ThemeComponentFactory<{ color: string }>('book/AtomBook')
+  return (
+    <div>
+      <BookCover color={generateColorFromString(url)}>{he.decode(label)}</BookCover>
+    </div>
+  )
 }
