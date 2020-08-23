@@ -4,7 +4,7 @@
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently \"npm run dev --prefix=$(pwd)/backend\" \"npm run start --prefix=$(pwd)/client\"",
+    "dev": "concurrently \"node ../Proxy/index.js\" \"npm run dev --prefix=$(pwd)/backend\" \"npm run start --prefix=$(pwd)/client\"",
     "start": "npm run build --prefix=$(pwd)/client && npm run start"
   },
   "author": "Sidmonta <sidmonta.15@gmail.com>",
