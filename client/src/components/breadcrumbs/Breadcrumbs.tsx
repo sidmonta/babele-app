@@ -54,7 +54,7 @@ type BreadcrumbsProps = {
 
 const printHierarchy = (dewey: DeweyCategory) => {
   return dewey.hierarchy.map((d) => (
-    <Item>
+    <Item key={d.dewey}>
       <span>
         <Link to={'/category/' + d.dewey}>{d.name}</Link>
       </span>

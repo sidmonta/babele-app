@@ -14,6 +14,7 @@ export default function WrapBookList({ deweySelect }: { deweySelect: DeweyCatego
         id: deweyId,
       })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deweyId])
 
   return (

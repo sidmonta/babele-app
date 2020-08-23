@@ -6,15 +6,16 @@ export const useLabelerContext = () => useContext(LabelerContext)
 
 export const useLabel = (uri: string, lang?: string | undefined) => {
   const [label, setLabel] = useState<string>(uri)
+
   useEffect(() => {
     const getLabel = async (uri: string) => {
-      const l: string = await __(uri, lang)
+      const l: string = await __(uri, lang, 'http://localhost:3007/')
       setLabel(l)
     }
     if (uri) {
       getLabel(uri).then()
     }
-  }, [uri])
+  }, [uri, lang])
 
   return [label, setLabel]
 }

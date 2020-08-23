@@ -21,6 +21,7 @@ export function useWSData<A>(eventType: string) {
     })
 
     return () => webSocketClient.removeListener(eventType)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return elements
