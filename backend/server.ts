@@ -5,7 +5,7 @@ import { wSocketListener } from './websocket/websocket.listener'
 import { createWebSocketServer } from '@marblejs/websockets'
 import { d, databaseToken } from './database/database.context'
 import { c, cacheToken } from './cache/redis.context'
-import { populateDeweyCache } from './cache/redis.prepopulate'
+import { populateDeweyCache, populateEndpointList } from './cache/redis.prepopulate'
 
 const server = createServer({
   port: 1337,
@@ -25,6 +25,8 @@ const webSocketServer = createWebSocketServer({
 
 const main: IO<void> = async () => {
   populateDeweyCache()
+  await populateEndpointList()
+
   await (await server)()
   await (await webSocketServer)()
 }
