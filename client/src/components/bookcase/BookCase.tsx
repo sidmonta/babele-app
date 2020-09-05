@@ -1,5 +1,5 @@
 import React from 'react'
-import BookCaseImage from './BookCaseImage'
+import { ThemeComponentFactory } from '../../context/theme'
 
 export interface BookCaseType {
   dewey: string
@@ -14,6 +14,7 @@ export interface BookCaseProps extends BookCaseType {
 }
 
 export default function BookCase(props: BookCaseProps) {
+  const BookCaseImage = ThemeComponentFactory<{ label: string; dewey: string }>('bookcase/BookCaseImage')
   return (
     <>
       <span
