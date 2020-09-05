@@ -1,14 +1,11 @@
 import { webSocketListener } from '@marblejs/websockets'
-import { bookData$, bookList$, label$ } from './stream.effect'
+import { bookData$, bookList$, label$, search$ } from './stream.effect'
 
+const effects = [bookList$, bookData$, label$, search$]
 
-const effects = [
- bookList$, bookData$, label$
-]
-
-const middlewares = [
-]
+const middlewares = []
 
 export const wSocketListener = webSocketListener({
-  effects, middlewares
+  effects,
+  middlewares,
 })

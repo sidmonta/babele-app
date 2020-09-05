@@ -5,6 +5,7 @@ export enum Type {
   BOOKLIST = 'BOOKLIST',
   LABEL = 'LABEL',
   BOOKDATA = 'BOOKDATA',
+  BOOKSEARCH = 'BOOKSEARCH',
 }
 
 export interface WSBookList extends Event {
@@ -22,4 +23,9 @@ export interface WSBookData extends Event {
   payload: Quad
 }
 
-export type WSTypes = WSBookList | WSLabel | WSBookData
+export interface WSBookSearch extends Event {
+  type: Type.BOOKSEARCH
+  payload: { query: string }
+}
+
+export type WSTypes = WSBookList | WSLabel | WSBookData | WSBookSearch

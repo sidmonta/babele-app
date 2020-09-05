@@ -5,29 +5,23 @@ import { pipe } from 'fp-ts/lib/pipeable'
 import { reply } from '@marblejs/messaging'
 import { Observable, of } from 'rxjs'
 import { redisClient } from '../cache/redis.context'
-import { Type, WSBookList } from './EffectTypes'
-import { getBookListFromCache } from './stream.response'
+import { Type } from './EffectTypes'
+import { getBookListFromCache, searchFromCache } from './stream.response'
 
-// export const hello$: WsEffect = (event$) => {
-//   return event$.pipe(
-//     matchEvent('HELLO'),
-//     tap(console.log),
-//     map(({ payload }) => ({
-//       type: 'HELLO',
-//       payload,
-//     }))
-//   )
-// }
+const getBookList = getBookListFromCache(redisClient)
+const search = searchFromCache(redisClient)
 
-export const bookList$: WsEffect = (event$: Observable<Event>) => {
+const EffectGenerator = <A>(eventType: Type, method: (event: Event) => Observable<A>): WsEffect => (
+  event$: Observable<Event>
+) => {
   return event$.pipe(
-    matchEvent(Type.BOOKLIST),
-    act((event: WSBookList) => {
+    matchEvent(eventType),
+    act((event: Event) => {
       return pipe(
-        getBookListFromCache(redisClient, event),
+        method(event),
         map((payload) =>
           reply(event)({
-            type: Type.BOOKLIST,
+            type: eventType,
             payload,
           })
         )
@@ -36,40 +30,10 @@ export const bookList$: WsEffect = (event$: Observable<Event>) => {
   )
 }
 
-export const bookData$: WsEffect = (event$) => {
-  return event$.pipe(
-    matchEvent(Type.BOOKDATA),
-    act((event) => {
-      // const cache = getCacheFromContext(ctx)
+export const bookList$ = EffectGenerator(Type.BOOKLIST, getBookList)
 
-      return pipe(
-        of(1), // TODO: Replace with function (event) => Observable<payload>
-        map((payload) =>
-          reply(event)({
-            type: Type.BOOKDATA,
-            payload,
-          })
-        )
-      )
-    })
-  )
-}
+export const bookData$ = EffectGenerator(Type.BOOKDATA, of)
 
-export const label$: WsEffect = (event$) => {
-  return event$.pipe(
-    matchEvent('LABEL'),
-    act((event) => {
-      // const cache = getCacheFromContext(ctx)
+export const label$ = EffectGenerator(Type.LABEL, of)
 
-      return pipe(
-        of(1), // TODO: Replace with function (event) => Observable<payload
-        map((payload) =>
-          reply(event)({
-            type: 'LABEL',
-            payload,
-          })
-        )
-      )
-    })
-  )
-}
+export const search$ = EffectGenerator<string>(Type.BOOKSEARCH, search)
