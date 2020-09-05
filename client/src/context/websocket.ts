@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, Dispatch, SetStateAction, useContext, useEffect, useState } from 'react'
 import { Tools } from '@sidmonta/babelelibrary'
 const socket = new Tools.WebSocketClient({
   port: '1338',
@@ -11,7 +11,7 @@ socket.onCloseConnection(() => console.log('Close connection'))
 export const WebSocketContext = createContext(socket)
 export const useWebSocket = () => useContext(WebSocketContext)
 
-export function useWSData<A>(eventType: string) {
+export function useWSData<A>(eventType: string): [A[], Dispatch<SetStateAction<A[]>>] {
   const [elements, setElements] = useState<A[]>([])
   const webSocketClient = useWebSocket()
 
@@ -24,5 +24,5 @@ export function useWSData<A>(eventType: string) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  return elements
+  return [elements, setElements]
 }
