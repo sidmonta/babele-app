@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Chilanka&display=swap');
 
 footer { grid-area: footer; height: 0; }
 header { grid-area: header; }
@@ -54,4 +55,16 @@ footer .searchBtn {
     to {
         transform:rotate(360deg);
     }
+}
+
+.masonry {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.masonry li {
+    margin: 10px 0;
+    width: 150px;
+    height: 200px;
 }
