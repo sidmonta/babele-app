@@ -4,7 +4,7 @@
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently \"node ../Proxy/index.js\" \"env-cmd -f .env.development npm run dev --prefix=$(pwd)/backend\" \"env-cmd -f .env.development npm run start --prefix=$(pwd)/client\"",
+    "dev": "concurrently \"node ../Proxy/index.js\" \"env-cmd -f .env.development.local npm run dev --prefix=$(pwd)/backend\" \"env-cmd -f .env.development.local npm run start --prefix=$(pwd)/client\"",
     "start": "npm run build --prefix=$(pwd)/client && npm run start",
     "build": "npm run build --prefix=$(pwd)/client"
   },

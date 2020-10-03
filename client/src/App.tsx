@@ -10,13 +10,13 @@ import SearchResult from './views/SearchResult/SearchResult'
 import SearchBar from './components/searchbar/SearchBar'
 import { DeweyCategory } from '@sidmonta/babelelibrary/lib/types'
 import { DeweySelectContext } from './context/dewey-select'
-import { ThemeContext } from './context/theme'
+import { ThemeContext, Themes } from './context/theme'
 
 function App() {
   const [selectDeweyCategory, setSelectDeweyCategory] = useState<DeweyCategory | null>(null)
   const value = { selectDeweyCategory, setSelectDeweyCategory }
   return (
-    <ThemeContext.Provider value="real">
+    <ThemeContext.Provider value={process.env.REACT_APP_THEME as Themes}>
       <div className="App">
         <header>
           <NavMenu />

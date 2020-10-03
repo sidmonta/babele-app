@@ -1,8 +1,8 @@
 import { createContext, Dispatch, SetStateAction, useContext, useEffect, useState } from 'react'
 import { Tools } from '@sidmonta/babelelibrary'
 const socket = new Tools.WebSocketClient({
-  port: '1338',
-  address: 'ws://localhost',
+  port: process.env.REACT_APP_WS_PORT,
+  address: 'ws://' + process.env.REACT_APP_WS_HOST,
 })
 
 socket.onOpenConnection(() => console.log('Open connection'))

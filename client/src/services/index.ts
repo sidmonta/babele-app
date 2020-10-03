@@ -7,7 +7,7 @@ type OptionFetch = {
 }
 
 export function fetchAPI(method: Method) {
-  const baseURL = 'http://localhost:1337/api'
+  const baseURL = `http://${process.env.REACT_APP_HTTP_HOST}:${process.env.REACT_APP_HTTP_PORT}/api`
   return function (url: string, data = undefined) {
     let optRequest: OptionFetch = {
       method,

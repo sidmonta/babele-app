@@ -16,11 +16,12 @@ import { allitem, smembers } from '../cache/redis.wrapper'
 import { CACHE_KEY_ENDPOINT_LIST, callEndpoint } from '../search/endpoint-list'
 import * as N3 from 'n3'
 import { filterByPing, formatDocument, LODDocument } from '@sidmonta/babelelibrary/build/stream'
+import { ClassifierAlgorithms } from '@sidmonta/classifier/lib/ClassifierFactory'
 
 type Quad = N3.Quad
 const classy = classify<LODDocument>({
-  algorithm: 'Fisher',
-  dbPath: '/Users/lucamontanera/Documents/Progetti/Babele/Training/database.db',
+  algorithm: process.env.CLASSIFY_ALGO as ClassifierAlgorithms,
+  dbPath: process.env.DATABASE_PATH,
   featureFun: 'featureWthMetadata',
 })
 

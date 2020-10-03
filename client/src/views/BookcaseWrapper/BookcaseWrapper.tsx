@@ -21,7 +21,9 @@ export default function BookcaseWrapper({
   const fetchData = (dewey?: string) => {
     const apiUrl = dewey ? `children/${dewey}` : 'init'
     const fetchData = async () => {
-      const initialBookcases = await fetch(`http://localhost:1337/api/${apiUrl}`).then((data) => data.json())
+      const initialBookcases = await fetch(
+        `http://${process.env.REACT_APP_HTTP_HOST}:${process.env.REACT_APP_HTTP_PORT}/api/${apiUrl}`
+      ).then((data) => data.json())
       setBookCase(initialBookcases)
     }
     fetchData().then()

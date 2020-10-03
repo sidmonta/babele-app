@@ -9,7 +9,7 @@ export const useLabel = (uri: string, lang?: string | undefined) => {
 
   useEffect(() => {
     const getLabel = async (uri: string) => {
-      const l: string = await __(uri, lang, 'http://localhost:3007/')
+      const l: string = await __(uri, lang, process.env.REACT_APP_PROXY)
       setLabel(l)
     }
     if (uri) {
