@@ -18,7 +18,6 @@ const BookList = ({ books }: { books: string[] }) => {
   }
 
   useEffect(() => {
-    console.log(bookForPage.list.length)
     if (books.length && bookForPage.list.length < 50) {
       setBookForPage({
         list: getBookForPage(books, 1),

@@ -189,7 +189,6 @@ export default function SearchBar() {
 
   const handleToggleClick = () => {
     setClose(!closed)
-    console.log(!closed)
     if (closed) {
       inputRef?.focus()
     }

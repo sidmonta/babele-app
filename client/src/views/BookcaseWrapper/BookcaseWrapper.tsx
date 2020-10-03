@@ -18,8 +18,6 @@ export default function BookcaseWrapper({
   const [bookcases, setBookCase] = useState<BookCaseType[]>([])
   // const [books, setBooks] = useState<string[]>([])
 
-  console.log(category)
-
   const fetchData = (dewey?: string) => {
     const apiUrl = dewey ? `children/${dewey}` : 'init'
     const fetchData = async () => {
