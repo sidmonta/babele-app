@@ -24,11 +24,10 @@ export async function populateEndpointList(): Promise<void> {
       endpoints = await getEndpoints()
 
       redisClient.del(CACHE_KEY_ENDPOINT_LIST)
-      redisClient.lpush(CACHE_KEY_ENDPOINT_LIST, ...endpoints, console.log)
+      redisClient.lpush(CACHE_KEY_ENDPOINT_LIST, ...endpoints, () => {})
     } else {
       endpoints = data
     }
-    console.log('Endpoint list: ', endpoints)
     return endpoints
   })
 }

@@ -4,13 +4,17 @@
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently \"node ../Proxy/index.js\" \"npm run dev --prefix=$(pwd)/backend\" \"npm run start --prefix=$(pwd)/client\"",
-    "start": "npm run build --prefix=$(pwd)/client && npm run start"
+    "dev": "concurrently \"node ../Proxy/index.js\" \"env-cmd -f .env.development npm run dev --prefix=$(pwd)/backend\" \"env-cmd -f .env.development npm run start --prefix=$(pwd)/client\"",
+    "start": "npm run build --prefix=$(pwd)/client && npm run start",
+    "build": "npm run build --prefix=$(pwd)/client"
   },
   "author": "Sidmonta <sidmonta.15@gmail.com>",
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^5.2.0",
     "prettier": "2.0.5"
+  },
+  "dependencies": {
+    "env-cmd": "^10.1.0"
   }
 }

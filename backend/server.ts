@@ -8,16 +8,16 @@ import { c, cacheToken } from './cache/redis.context'
 import { populateDeweyCache, populateEndpointList } from './cache/redis.prepopulate'
 
 const server = createServer({
-  port: 1337,
-  hostname: 'localhost',
+  port: Number(process.env.REACT_APP_HTTP_PORT),
+  hostname: process.env.REACT_APP_HTTP_HOST,
   listener,
   dependencies: [bindTo(databaseToken)(d), bindTo(cacheToken)(c)],
 })
 
 const webSocketServer = createWebSocketServer({
   options: {
-    port: 1338,
-    host: 'localhost',
+    port: Number(process.env.REACT_APP_WS_PORT),
+    host: process.env.REACT_APP_WS_HOST,
   },
   listener: wSocketListener,
   dependencies: [bindTo(databaseToken)(d), bindTo(cacheToken)(c)],

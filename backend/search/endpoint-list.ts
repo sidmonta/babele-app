@@ -6,7 +6,7 @@ import { from, Observable, onErrorResumeNext } from 'rxjs'
 
 type Method = 'GET'
 
-export const CACHE_KEY_ENDPOINT_LIST = 'endpoint_list'
+export const CACHE_KEY_ENDPOINT_LIST = process.env.CACHE_KEY_ENDPOINT_LIST
 
 const filterEndpoint = async (endpoints: string[]): Promise<string[]> => {
   const filteredEndpoint = []
