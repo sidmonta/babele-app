@@ -3,6 +3,7 @@ import { Router } from '@reach/router'
 import './App.css'
 import Home from './views/Home/Home'
 import CategoryPage from './views/CategoryPage/CategoryPage'
+import BookView from './views/BookView/BookView'
 
 import NavMenu from './components/menu/NavMenu'
 import SearchResult from './views/SearchResult/SearchResult'
@@ -24,7 +25,9 @@ function App() {
           <DeweySelectContext.Provider value={value}>
             <Router>
               <Home path="/" />
-              <CategoryPage path="category/:categoryId" />
+              <CategoryPage path="category/:categoryId">
+                <BookView path="book/:bookUri" />
+              </CategoryPage>
               <SearchResult path="search/:query" />
             </Router>
           </DeweySelectContext.Provider>

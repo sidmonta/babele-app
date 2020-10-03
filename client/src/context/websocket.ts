@@ -16,11 +16,11 @@ export function useWSData<A>(eventType: string): [A[], Dispatch<SetStateAction<A
   const webSocketClient = useWebSocket()
 
   useEffect(() => {
-    webSocketClient.on(eventType, (elem: A) => {
-      setElements((old: A[]) => [elem, ...old])
+    const identify = webSocketClient.on(eventType, (elem: A) => {
+      setElements((old: A[]) => [...old, elem])
     })
 
-    return () => webSocketClient.removeListener(eventType)
+    return () => webSocketClient.removeListener(eventType, identify)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
