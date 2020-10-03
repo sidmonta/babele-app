@@ -6,6 +6,8 @@ export enum Type {
   LABEL = 'LABEL',
   BOOKDATA = 'BOOKDATA',
   BOOKSEARCH = 'BOOKSEARCH',
+  BOOKDATASERVICE = 'BOOKDATASERVICE',
+  NEWBOOK = 'NEWBOOK',
 }
 
 export interface WSBookList extends Event {
@@ -18,9 +20,11 @@ export interface WSLabel extends Event {
   payload: string | string[]
 }
 
-export interface WSBookData extends Event {
+export interface WSBookDataIn extends Event {
   type: Type.BOOKDATA
-  payload: Quad
+  payload: {
+    uri: string
+  }
 }
 
 export interface WSBookSearch extends Event {
@@ -28,4 +32,26 @@ export interface WSBookSearch extends Event {
   payload: { query: string }
 }
 
-export type WSTypes = WSBookList | WSLabel | WSBookData | WSBookSearch
+export interface WSBookDataOut extends Event {}
+
+export interface WSBookData extends WSBookDataOut {
+  type: Type.BOOKDATA
+  payload: {
+    quad: Quad
+  }
+}
+
+export interface WSBookDataService extends WSBookDataOut {
+  type: Type.BOOKDATASERVICE
+  payload: {
+    service: string
+  }
+}
+
+export interface WSNewBookClassified extends WSBookDataOut {
+  type: Type.NEWBOOK
+  payload: {
+    bookUri: string
+    dewey: string
+  }
+}
