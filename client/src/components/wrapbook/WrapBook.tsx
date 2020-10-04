@@ -10,7 +10,7 @@ export interface WrapBookProps {
 export type Quad = {
   subject: { value: string }
   predicate: { value: string }
-  object: { value: string }
+  object: { value: string; termType: string }
 }
 
 export default function WrapBook({ book, onClose }: WrapBookProps) {

@@ -1,3 +1,5 @@
+import { useLocation, useNavigate } from '@reach/router'
+
 type Method = 'GET' | 'POST' | 'PUT'
 
 type OptionFetch = {
@@ -21,5 +23,20 @@ export function fetchAPI(method: Method) {
     }
 
     return fetch(baseURL + url, optRequest).then((response: Response) => response.json())
+  }
+}
+
+// HOOKS
+
+export function useRedirect() {
+  const navigate = useNavigate()
+  const location = useLocation()
+
+  const basePathRegex = new RegExp('^(/category/[0-9]+)')
+  const match = basePathRegex.exec(location.pathname)
+  const basePath = match && match[1] ? match[1] : location.pathname
+  return async (url: string) => {
+    console.log(location)
+    await navigate(`${basePath}/book/${encodeURIComponent(url)}`)
   }
 }
