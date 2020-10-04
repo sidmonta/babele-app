@@ -6,7 +6,7 @@ import * as R from 'fp-ts/lib/Reader'
 import * as O from 'fp-ts/lib/Option'
 import { WebSocketClientConnection } from '@marblejs/websockets'
 
-export const database = new BetterSqlite3(resolve(process.env.DATABASE))
+export const database = new BetterSqlite3(resolve(process.env.DATABASE_PATH))
 
 export const databaseToken = createContextToken<Database>('database')
 export const d = pipe(
