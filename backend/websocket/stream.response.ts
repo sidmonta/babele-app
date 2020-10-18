@@ -19,12 +19,17 @@ import { filterByPing, formatDocument, LODDocument } from '@sidmonta/babelelibra
 import { ClassifierAlgorithms } from '@sidmonta/classifier/lib/ClassifierFactory'
 
 type Quad = N3.Quad
+// Inizializzazione del classificatore
 const classy = classify<LODDocument>({
   algorithm: process.env.CLASSIFY_ALGO as ClassifierAlgorithms,
   dbPath: process.env.DATABASE_PATH,
   featureFun: 'featureWthMetadata',
 })
 
+/**
+ * Recupera la lista di libri associati ad un particolare dewey
+ * @param cache
+ */
 export function getBookListFromCache(cache) {
   return ({ payload }: WSBookList) => {
     const dewey = payload.id + (payload.id.length === 1 ? '00' : '')
@@ -37,6 +42,10 @@ export function getBookListFromCache(cache) {
   }
 }
 
+/**
+ * Effettua la ricerca su tutti gli endpoint disponibili
+ * @param cache
+ */
 export function searchFromCache(cache) {
   return ({ payload }: WSBookSearch) => {
     const call = callEndpoint(payload.query)
@@ -50,6 +59,10 @@ export function searchFromCache(cache) {
   }
 }
 
+/**
+ * Effettua l'analisi di una risorsa LOD
+ * @param cache
+ */
 export function getBookData(cache) {
   return ({ payload }: WSBookDataIn) => {
     if (payload.uri) {

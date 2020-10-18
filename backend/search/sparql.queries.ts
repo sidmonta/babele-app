@@ -1,3 +1,7 @@
+/**
+ * Formatta il valore da cerca come regex per le query SPARQL
+ * @param query
+ */
 export const formatQuery = (query: string): string => {
   return (
     '^' +
@@ -18,6 +22,11 @@ export const formatQuery = (query: string): string => {
   LIMIT 100
 `*/
 
+/**
+ * Genera la query per gli endpoint di tipo Virtuoso che supporta la ricerca
+ * full-text
+ * @param query da ricercare
+ */
 const generalSearchQuery = (query: string) => `
 SELECT DISTINCT ?subject WHERE {
     ?subject [] ?object.
