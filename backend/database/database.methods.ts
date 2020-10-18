@@ -1,8 +1,8 @@
 import { EffectContext, HttpServer } from '@marblejs/core'
 import { getDatabaseFromContext } from './database.context'
 import { DeweyCategory } from '@sidmonta/babelelibrary/lib/types'
-import { mergeMap } from 'rxjs/operators'
-import { of, throwError } from 'rxjs'
+import { map, mergeMap, tap } from 'rxjs/operators'
+import { of, pipe, throwError } from 'rxjs'
 import { sqlGetDeweyInfo, sqlWhereDeweyId, sqlWhereParent, sqlWhereParentNull } from './database.queries'
 
 export type From = 'fromParent' | 'fromId'
@@ -40,7 +40,10 @@ const getRecord = (database, from: From) => (identity: string) => {
     } else {
       whereParentCondition = sqlWhereDeweyId(identity)
     }
-    const response = database.prepare(sqlGenerator(whereParentCondition)).all().map(createDeweyCategory)
+    const response: DeweyCategory[] = database
+      .prepare(sqlGenerator(whereParentCondition))
+      .all()
+      .map(createDeweyCategory)
     return of(response)
   } catch (err) {
     return throwError('Error on Database ' + err)
@@ -60,4 +63,11 @@ export function getCategory(ctx: EffectContext<HttpServer>) {
 
 export function getDeweyElement(ctx: EffectContext<HttpServer>) {
   return process(ctx, 'fromId')
+}
+
+export function getDeweyLabel(ctx: EffectContext<HttpServer>) {
+  return pipe(
+    process(ctx, 'fromId'),
+    map((dewey: DeweyCategory[]) => ({ label: dewey[0].name }))
+  )
 }
