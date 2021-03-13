@@ -11,8 +11,8 @@
   "author": "Sidmonta <sidmonta.15@gmail.com>",
   "license": "ISC",
   "devDependencies": {
-    "concurrently": "^5.2.0",
-    "prettier": "2.0.5"
+    "concurrently": "^6.0.0",
+    "prettier": "^2.2.1"
   },
   "dependencies": {
     "env-cmd": "^10.1.0"
