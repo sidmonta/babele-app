@@ -58,7 +58,9 @@ export default function WrapBookcase(props: WrapBookcaseProps) {
 
   return (
     <FullRow>
-      <WrapContainer>{bookcases.map(printBookcase)}</WrapContainer>
+      <WrapContainer>
+        {bookcases.map(printBookcase)}
+      </WrapContainer>
     </FullRow>
   )
 }

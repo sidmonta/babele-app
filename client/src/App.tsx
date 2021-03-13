@@ -12,17 +12,19 @@ import { DeweyCategory } from '@sidmonta/babelelibrary/lib/types'
 import { DeweySelectContext } from './context/dewey-select'
 import { ThemeContext, Themes } from './context/theme'
 
+const appTheme = process.env.REACT_APP_THEME as Themes
+
 function App() {
   const [selectDeweyCategory, setSelectDeweyCategory] = useState<DeweyCategory | null>(null)
-  const value = { selectDeweyCategory, setSelectDeweyCategory }
+  const selectDeweyProvider = { selectDeweyCategory, setSelectDeweyCategory }
   return (
-    <ThemeContext.Provider value={process.env.REACT_APP_THEME as Themes}>
+    <ThemeContext.Provider value={appTheme}>
       <div className="App">
         <header>
           <NavMenu />
         </header>
         <main>
-          <DeweySelectContext.Provider value={value}>
+          <DeweySelectContext.Provider value={selectDeweyProvider}>
             <Router>
               <Home path="/" />
               <CategoryPage path="category/:categoryId">

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useWebSocket, useWSData } from '../../context/websocket'
 import BookDataRow from '../bookdatarow/BookDataRow'
+import ServiceList from '../servicelist/ServiceList'
 
 export interface WrapBookProps {
   book: string
@@ -15,7 +16,7 @@ export type Quad = {
 
 export default function WrapBook({ book, onClose }: WrapBookProps) {
   const webSocketClient = useWebSocket()
-  const [data, setData] = useWSData<{ quad: Quad }>('BOOKDATA')
+  const [data, setData] = useWSData<{ quad: Quad }>('BOOKDATA_' + book)
 
   useEffect(() => {
     if (book) {
@@ -29,7 +30,8 @@ export default function WrapBook({ book, onClose }: WrapBookProps) {
   return (
     <div onClick={() => onClose && onClose(book)}>
       <h4>WrapBook: {book}</h4>
-      <ul>
+      <ServiceList book={book} />
+      <ul className="bookdata-list">
         {data.map((d, index) => (
           <li key={index}>
             <BookDataRow data={d.quad} />

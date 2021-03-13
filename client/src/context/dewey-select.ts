@@ -1,10 +1,10 @@
 import { createContext, useContext, useEffect, useState } from 'react'
-import { DeweyCategory } from '@sidmonta/babelelibrary/build/types'
+import { Types } from '@sidmonta/babelelibrary'
 import { fetchAPI } from '../services'
 
 type ContextType = {
-  selectDeweyCategory: DeweyCategory | null
-  setSelectDeweyCategory: (d: DeweyCategory) => void
+  selectDeweyCategory: Types.DeweyCategory | null
+  setSelectDeweyCategory: (d: Types.DeweyCategory) => void
 }
 
 const getDewey = fetchAPI('GET')
