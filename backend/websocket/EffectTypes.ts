@@ -63,7 +63,7 @@ export interface WSBookDataOut extends Event {}
  * L'evento viene lanciato dal server con i dati ricavati dal Crawler
  */
 export interface WSBookData extends WSBookDataOut {
-  type: Type.BOOKDATA
+  type: string
   payload: {
     quad: Quad
   }
@@ -76,7 +76,7 @@ export interface WSBookData extends WSBookDataOut {
  * quando il Crawler scansiona un nuovo servizio
  */
 export interface WSBookDataService extends WSBookDataOut {
-  type: Type.BOOKDATASERVICE
+  type: string
   payload: {
     service: string
   }
