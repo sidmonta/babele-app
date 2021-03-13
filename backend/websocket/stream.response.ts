@@ -17,6 +17,7 @@ import { CACHE_KEY_ENDPOINT_LIST, callEndpoint } from '../search/endpoint-list'
 import * as N3 from 'n3'
 import { filterByPing, formatDocument, LODDocument } from '@sidmonta/babelelibrary/build/stream'
 import { ClassifierAlgorithms } from '@sidmonta/classifier/lib/ClassifierFactory'
+// import { logger } from '@marblejs/core'
 
 type Quad = N3.Quad
 // Inizializzazione del classificatore
@@ -70,15 +71,17 @@ export function getBookData(cache) {
       const crawler = new Crawler()
       crawler.run(uri)
 
+      const generateType = (t) => `${t}_${uri}`
+
       // Stream of book info
       const bookData$: Observable<WSBookData> = crawler
         .getNewNodeStream()
-        .pipe(map((quad: Quad) => ({ type: Type.BOOKDATA, payload: { quad } })))
+        .pipe(map((quad: Quad) => ({ type: generateType(Type.BOOKDATA), payload: { quad } })))
 
       // Stream of service where info from
       const bookService$: Observable<WSBookDataService> = crawler
         .getNewSourceStream()
-        .pipe(map((service: string) => ({ type: Type.BOOKDATASERVICE, payload: { service } })))
+        .pipe(map((service: string) => ({ type: generateType(Type.BOOKDATASERVICE), payload: { service } })))
 
       // Stream of new book classified
       const newBookClassified$: Observable<WSNewBookClassified> = crawler.getNewNodeStream().pipe(
@@ -86,6 +89,7 @@ export function getBookData(cache) {
         map((quad: Quad) => quad.object.value),
         distinct(),
         mergeMap(formatDocument),
+        filter((document: LODDocument) => document.content !== '' || Object.keys(document.metadata).length > 0),
         mergeMap((document: LODDocument) => classy(document.uri as string, document)),
         tap(([bookUri, dewey]: [string, string]) => {
           // Save on cache for future request
@@ -103,8 +107,9 @@ export function getBookData(cache) {
       )
 
       // Merge of all different type of response
-      return merge(bookData$, bookService$, newBookClassified$)
+      // return merge(bookData$, bookService$, newBookClassified$)
+      return [bookData$, bookService$, newBookClassified$]
     }
-    return throwError(new ErrorEvent('No URI found for crawling'))
+    return throwError(new Error('No URI found for crawling'))
   }
 }

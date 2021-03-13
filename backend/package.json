@@ -1,5 +1,5 @@
 {
-  "name": "babelelybrary",
+  "name": "babelebackend",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -19,9 +19,9 @@
     "@marblejs/middleware-cors": "^3.2.0",
     "@marblejs/middleware-logger": "^3.2.0",
     "@marblejs/websockets": "^3.2.0",
-    "@sidmonta/babelecrawler": "0.0.2",
-    "@sidmonta/babelelibrary": "0.0.9",
-    "@sidmonta/classifier": "0.0.2",
+    "@sidmonta/babelecrawler": "0.0.3",
+    "@sidmonta/babelelibrary": "^0.0.10",
+    "@sidmonta/classifier": "^0.0.2",
     "better-sqlite3": "^7.1.0",
     "fp-ts": "^2.6.5",
     "mime-types": "^2.1.27",
@@ -37,6 +37,6 @@
     "concurrently": "^5.2.0",
     "ts-node": "^8.10.2",
     "ts-node-dev": "^1.0.0-pre.56",
-    "typescript": "^3.9.5"
+    "typescript": "^4.2.3"
   }
 }
