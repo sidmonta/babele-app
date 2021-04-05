@@ -27,7 +27,9 @@ const main: IO<void> = async () => {
   populateDeweyCache()
   await populateEndpointList()
 
+  // @ts-ignore
   await (await server)()
+  // @ts-ignore
   await (await webSocketServer)()
 }
 
