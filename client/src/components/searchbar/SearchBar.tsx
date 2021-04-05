@@ -1,6 +1,6 @@
 import React, { KeyboardEvent, ChangeEvent, useState } from 'react'
 import styled, { css, keyframes } from 'styled-components'
-import { navigate } from '@reach/router'
+import { useHistory } from 'react-router-dom'
 
 type SearchBarProps = { closed: boolean; onClick?: () => void }
 
@@ -143,7 +143,8 @@ const Toggle = styled.div`
   }
 
   &:before {
-    animation: ${closeOneReverse} 0.85s 1 normal cubic-bezier(1, 0.01, 0.46, 1.48);
+    animation: ${closeOneReverse} 0.85s 1 normal
+      cubic-bezier(1, 0.01, 0.46, 1.48);
     transform: translate(-25px, 12.5px) rotate(45deg);
     ${(props: SearchBarProps) =>
       props.closed &&
@@ -155,7 +156,8 @@ const Toggle = styled.div`
   }
 
   &:after {
-    animation: ${closeTwoReverse} 0.85s 1 normal cubic-bezier(1, 0.01, 0.46, 1.48);
+    animation: ${closeTwoReverse} 0.85s 1 normal
+      cubic-bezier(1, 0.01, 0.46, 1.48);
     transform: translate(-25px, 12.5px) rotate(-45deg);
 
     ${(props: SearchBarProps) =>
@@ -171,6 +173,7 @@ const Toggle = styled.div`
 export default function SearchBar() {
   const [closed, setClose] = useState<boolean>(true)
   const [query, setQuery] = useState<string>('')
+  const history = useHistory()
 
   let inputRef: HTMLInputElement | null = null
 
@@ -181,7 +184,7 @@ export default function SearchBar() {
 
   const handleSubmit = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      navigate('/search/' + query).then(() => {})
+      history.push('/search/' + query)
       setClose(true)
       setQuery('')
     }

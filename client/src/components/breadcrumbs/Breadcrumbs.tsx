@@ -1,6 +1,6 @@
 import React from 'react'
 import { DeweyCategory } from '@sidmonta/babelelibrary/build/types'
-import { Link } from '@reach/router'
+import { Link } from 'react-router-dom'
 import { AiFillHome } from 'react-icons/ai'
 import styled from 'styled-components'
 

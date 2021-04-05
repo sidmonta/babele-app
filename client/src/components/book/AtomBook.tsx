@@ -4,6 +4,7 @@ import * as he from 'he'
 import { useLabel } from '../../context/labeler'
 import { ThemeComponentFactory } from '../../context/theme'
 import { useRedirect } from '../../services'
+import { generateColorFromString } from '@sidmonta/babelelibrary/build/tools'
 
 const Fallback = ({ url }: { url: string }) => (
   <div style={{ width: '150px', height: '200px', backgroundColor: Tools.generateColorFromString(url) }}>{url}</div>

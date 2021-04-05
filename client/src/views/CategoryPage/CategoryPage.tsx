@@ -1,27 +1,35 @@
 import React from 'react'
-import { useMatch } from '@reach/router'
 import { useDewey } from '../../context/dewey-select'
-import { DeweyCategory } from '@sidmonta/babelelibrary/lib/types'
+import { DeweyCategory } from '@sidmonta/babelelibrary/build/types'
 import WrapBookcase from '../../components/wrapbookcase/WrapBookcase'
 import WoodBookcase from '../../components/woodbookcase/WoodBookcase'
 import Breadcrumbs from '../../components/breadcrumbs/Breadcrumbs'
 import WrapBookList from '../../components/wrapbookslist/WrapBooksList'
+import { Route, Switch, useRouteMatch, useParams } from 'react-router'
+import BookView from '../BookView/BookView'
 
-export default function CategoryPage({ children, path }: { children: JSX.Element; path: string }) {
-  const params = useMatch(`/${path}/*`) || { categoryId: '0' }
+export default function CategoryPage() {
+  let { path } = useRouteMatch()
+  const params = useParams<{ categoryId: string }>() || { categoryId: '0' }
   const currentDewey = params.categoryId
   const selectDewey: DeweyCategory | null = useDewey(currentDewey)
 
   return (
     <div className="page-container">
-      <WrapBookcase deweySelect={selectDewey} />
-      <Breadcrumbs dewey={selectDewey} />
-      <WoodBookcase title={selectDewey?.name || ''}>
-        <div className="wood-book">
-          <WrapBookList deweySelect={selectDewey} />
-        </div>
-      </WoodBookcase>
-      {children ? children : ''}
+      <Switch>
+        <Route exact path={path}>
+          <WrapBookcase deweySelect={selectDewey} />
+          <Breadcrumbs dewey={selectDewey} />
+          <WoodBookcase title={selectDewey?.name || ''}>
+            <div className="wood-book">
+              <WrapBookList deweySelect={selectDewey} />
+            </div>
+          </WoodBookcase>
+        </Route>
+        <Route path={`${path}/book/:bookUri`}>
+          <BookView />
+        </Route>
+      </Switch>
     </div>
   )
 }

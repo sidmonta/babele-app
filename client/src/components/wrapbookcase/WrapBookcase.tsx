@@ -4,7 +4,7 @@ import { DeweyCategory } from '@sidmonta/babelelibrary/build/types'
 import { useDeweySelect } from '../../context/dewey-select'
 import { fetchAPI } from '../../services'
 import BookCase from '../bookcase/BookCase'
-import { navigate } from '@reach/router'
+import { useHistory } from 'react-router-dom'
 
 const FullRow = styled.div`
   position: relative;
@@ -30,6 +30,7 @@ const fetchDewey = fetchAPI('GET')
 export default function WrapBookcase(props: WrapBookcaseProps) {
   const deweySelect: DeweyCategory | null = props.deweySelect
   const { setSelectDeweyCategory } = useDeweySelect()
+  const history = useHistory()
 
   const [bookcases, setBookcase] = useState<DeweyCategory[]>([])
 
@@ -49,18 +50,22 @@ export default function WrapBookcase(props: WrapBookcaseProps) {
 
   const handleBookcaseClick = (deweySelected: DeweyCategory) => {
     setSelectDeweyCategory(deweySelected)
-    navigate('/category/' + deweySelected.dewey).then()
+    history.push('/category/' + deweySelected.dewey)
   }
 
   const printBookcase = (bookcase: DeweyCategory) => {
-    return <BookCase onClick={() => handleBookcaseClick(bookcase)} {...bookcase} key={bookcase.dewey} />
+    return (
+      <BookCase
+        onClick={() => handleBookcaseClick(bookcase)}
+        {...bookcase}
+        key={bookcase.dewey}
+      />
+    )
   }
 
   return (
     <FullRow>
-      <WrapContainer>
-        {bookcases.map(printBookcase)}
-      </WrapContainer>
+      <WrapContainer>{bookcases.map(printBookcase)}</WrapContainer>
     </FullRow>
   )
 }

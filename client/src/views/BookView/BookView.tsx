@@ -1,11 +1,10 @@
 import React from 'react'
-import { useParams } from '@reach/router'
+import { useParams } from 'react-router-dom'
 import BookStack from '../../components/bookstack/BookStack'
 
-export default function BookView({ path }: { path: string }) {
+export default function BookView() {
   const params: { bookUri: string } = useParams()
   const bookUri = decodeURIComponent(params.bookUri || '')
-  console.log(bookUri)
   return (
     <div className="book-view">
       <h3>BookView: {bookUri}</h3>

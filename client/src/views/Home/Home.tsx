@@ -2,7 +2,7 @@ import React from 'react'
 import Title from '../../components/title/title'
 import WrapBookcase from '../../components/wrapbookcase/WrapBookcase'
 
-function Home({ path }: { path: string }) {
+function Home() {
   return (
     <div className="page-container">
       <Title className="center-text">Babele's Library</Title>

@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from '@reach/router'
+import { useLocation, useHistory } from 'react-router-dom'
 
 type Method = 'GET' | 'POST' | 'PUT'
 
@@ -29,14 +29,13 @@ export function fetchAPI(method: Method) {
 // HOOKS
 
 export function useRedirect() {
-  const navigate = useNavigate()
+  const navigate = useHistory()
   const location = useLocation()
 
   const basePathRegex = new RegExp('^(/category/[0-9]+)')
   const match = basePathRegex.exec(location.pathname)
   const basePath = match && match[1] ? match[1] : location.pathname
-  return async (url: string) => {
-    console.log(location)
-    await navigate(`${basePath}/book/${encodeURIComponent(url)}`)
+  return (url: string) => {
+    navigate.push(`${basePath}/book/${encodeURIComponent(url)}`)
   }
 }

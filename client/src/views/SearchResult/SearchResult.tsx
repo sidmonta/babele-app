@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
-import { useParams } from '@reach/router'
+import { useParams } from 'react-router-dom'
 
 import WoodBookcase from '../../components/woodbookcase/WoodBookcase'
 import BookList from '../../components/booklist/BookList'
 import { useWebSocket, useWSData } from '../../context/websocket'
 
-export default function SearchResult({ path }: { path: string }) {
-  const { query } = useParams()
+export default function SearchResult() {
+  const { query } = useParams<{ query: string }>()
   const webSocketClient = useWebSocket()
   const [books, setBook] = useWSData<string>('BOOKSEARCH')
 
